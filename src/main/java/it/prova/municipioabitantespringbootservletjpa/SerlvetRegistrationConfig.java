@@ -24,6 +24,7 @@ import it.prova.municipioabitantespringbootservletjpa.web.servlet.municipio.Exec
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.municipio.ExecuteVisualizzaMunicipioServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.municipio.PrepareDeleteMunicipioServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.municipio.PrepareModificaMunicipioServlet;
+import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteSearchUtenteServlet;
 
 @Configuration
 public class SerlvetRegistrationConfig {
@@ -69,6 +70,8 @@ public class SerlvetRegistrationConfig {
 	private ExecuteDeleteMunicipioServlet executeDeleteMunicipioServlet;
 	@Autowired
 	private ExecuteModificaMunicipioServlet executeModificaMunicipioServlet;
+	@Autowired
+	private ExecuteSearchUtenteServlet executeSearchUtenteServlet;
 
 	@Bean
 	public ServletRegistrationBean<LoginServlet> createLoginServletBean() {
@@ -200,6 +203,13 @@ public class SerlvetRegistrationConfig {
 	public ServletRegistrationBean<ExecuteModificaMunicipioServlet> createExecuteModificaMunicipioServletBean() {
 		ServletRegistrationBean<ExecuteModificaMunicipioServlet> bean = new ServletRegistrationBean<ExecuteModificaMunicipioServlet>(
 				executeModificaMunicipioServlet, "/ExecuteModificaMunicipioServlet");
+		return bean;
+	}
+
+	@Bean
+	public ServletRegistrationBean<ExecuteSearchUtenteServlet> createExecuteSearchUtenteServletBean() {
+		ServletRegistrationBean<ExecuteSearchUtenteServlet> bean = new ServletRegistrationBean<ExecuteSearchUtenteServlet>(
+				executeSearchUtenteServlet, "/utente/ExecuteSearchUtenteServlet");
 		return bean;
 	}
 

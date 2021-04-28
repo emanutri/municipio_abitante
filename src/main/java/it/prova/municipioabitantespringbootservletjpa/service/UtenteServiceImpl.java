@@ -75,4 +75,9 @@ public class UtenteServiceImpl implements UtenteService {
 		return result.isPresent() ? result.get() : null;
 	}
 
+	@Override
+	public List<Utente> findByExample(Utente example) {
+		return utenteDAO.findByExample(example);
+	}
+
 }

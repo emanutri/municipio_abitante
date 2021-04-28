@@ -23,4 +23,6 @@ public interface UtenteService  {
 	
 	public Utente accedi(String username, String password) ;
 
+	public List<Utente> findByExample(Utente example);
+
 }

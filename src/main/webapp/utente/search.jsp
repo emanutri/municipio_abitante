@@ -52,33 +52,41 @@
                             		title="formato : gg/mm/aaaa"  name="dateCreated" >
 							</div>
 						</div>
-						
-						<h5>Ecc.....Da Completare aggiungendo il resto</h5> 
+						<br/>
+						<div class="form-row">	
+							<div class="form-group col-md-6">
+								<label for="stato">Stato</label>
+							    <select class="form-control" id="stato" name="stato">
+							    	<option value=""> -- Selezionare una voce -- </option>
+							      		<option value="${statoUtente.ATTIVO}">ATTIVO</option>
+							      		<option value="${statoUtente.DISABILITATO}">DISABILITATO </option>
+							      		<option value="${statoUtente.CREATO}">CREATO </option>
+							    </select>
+							</div>
 							
+								<h4>Ruoli:   </h4>
+								<div class="form-check" style="padding-top: 50px">
+								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${idRuoloItem}" id="defaultCheck1">
+								  <label class="form-check-label" for="defaultCheck1">
+								    Admin
+								  </label>
+								  <br/>
+								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+								  <label class="form-check-label" for="defaultCheck2">
+								    User
+								  </label>
+								  <br/>
+								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="" id="defaultCheck3">
+								  <label class="form-check-label" for="defaultCheck3">
+								    Altro Ruolo
+								  </label>
+								</div>
+						</div>
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 						<input class="btn btn-outline-warning" type="reset" value="Ripulisci">
 					
 
 						<a class="btn btn-outline-primary ml-2" href="PrepareInsertUtenteServlet">Add New</a>
-						
-						
-						Ruoli:
-						<div class="form-check">
-						  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${idRuoloItem}" id="defaultCheck1">
-						  <label class="form-check-label" for="defaultCheck1">
-						    Admin
-						  </label>
-						  <br/>
-						  <input name="ruolo.id" class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-						  <label class="form-check-label" for="defaultCheck2">
-						    User
-						  </label>
-						  <br/>
-						  <input name="ruolo.id" class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-						  <label class="form-check-label" for="defaultCheck3">
-						    Altro Ruolo
-						  </label>
-						</div>
 						
 					</form>
 

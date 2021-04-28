@@ -9,6 +9,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import it.prova.municipioabitantespringbootservletjpa.model.Abitante;
 import it.prova.municipioabitantespringbootservletjpa.model.Municipio;
+import it.prova.municipioabitantespringbootservletjpa.model.StatoUtente;
+import it.prova.municipioabitantespringbootservletjpa.model.Utente;
 
 public class UtilityForm {
 
@@ -73,6 +75,27 @@ public class UtilityForm {
 		} catch (ParseException e) {
 			return null;
 		}
+	}
+
+	public static Utente createUtenteFromParams(String usernameInput, String passwordInput, String nomeInputParam, String cognomeInputParam) {
+
+		Utente result = new Utente(usernameInput, passwordInput, nomeInputParam, cognomeInputParam, new Date());
+		
+		//setto lo stato utente fisso a creato appena viene creato
+		result.setStato(StatoUtente.CREATO);
+		
+		return result;
+	}
+
+	public static boolean validateUtenteBean(Utente utenteToBeValidated) {
+		// prima controlliamo che non siano vuoti i parametri
+		if (StringUtils.isBlank(utenteToBeValidated.getNome())
+				|| StringUtils.isBlank(utenteToBeValidated.getCognome())
+				|| StringUtils.isBlank(utenteToBeValidated.getUsername())
+				|| StringUtils.isBlank(utenteToBeValidated.getPassword())) {
+			return false;
+		}
+		return true;
 	}
 
 }

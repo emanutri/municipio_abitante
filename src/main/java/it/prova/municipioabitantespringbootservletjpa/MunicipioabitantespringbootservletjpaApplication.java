@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import it.prova.municipioabitantespringbootservletjpa.model.Ruolo;
 import it.prova.municipioabitantespringbootservletjpa.model.StatoUtente;
@@ -14,6 +15,7 @@ import it.prova.municipioabitantespringbootservletjpa.service.RuoloService;
 import it.prova.municipioabitantespringbootservletjpa.service.UtenteService;
 
 @SpringBootApplication
+//@ComponentScan({"it.prova.municipioabitantespringbootservletjpa"})
 public class MunicipioabitantespringbootservletjpaApplication implements CommandLineRunner {
 
 	@Autowired

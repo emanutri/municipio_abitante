@@ -47,9 +47,17 @@ public class Utente {
 	}
 
 	public Utente(String username, String password) {
-		super();
 		this.username = username;
 		this.password = password;
+	}
+
+	
+	public Utente(String username, String nome, String cognome, Date dateCreated, StatoUtente stato) {
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
 	}
 
 	public Utente(String username, String password, String nome, String cognome, Date dateCreated) {
