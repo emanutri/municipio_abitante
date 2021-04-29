@@ -12,7 +12,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import it.prova.municipioabitantespringbootservletjpa.model.StatoUtente;
 import it.prova.municipioabitantespringbootservletjpa.model.Utente;
 import it.prova.municipioabitantespringbootservletjpa.service.UtenteService;
 
@@ -30,7 +29,7 @@ public class ExecuteDeleteUtenteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String idParameter = request.getParameter("idUtente");
-		Utente utenteInstance = utenteService.caricaSingoloElemento(Long.parseLong(idParameter));
+		Utente utenteInstance = utenteService.caricaUtenteEager(Long.parseLong(idParameter));
 
 		if (!NumberUtils.isCreatable(idParameter)) {
 
@@ -39,17 +38,22 @@ public class ExecuteDeleteUtenteServlet extends HttpServlet {
 			request.getRequestDispatcher("list.jsp").forward(request, response);
 			return;
 		}
+		try {
+			//meth cambia stato
+			utenteService.rimuovi(utenteInstance);
 
-		if (utenteInstance.getStato() == StatoUtente.DISABILITATO) {
-			utenteInstance.setStato(StatoUtente.ATTIVO);
-		} else if (utenteInstance.getStato() == StatoUtente.ATTIVO) {
-			utenteInstance.setStato(StatoUtente.DISABILITATO);
-		} else if (utenteInstance.getStato() == StatoUtente.CREATO) {
-			utenteInstance.setStato(StatoUtente.ATTIVO);
+			utenteService.aggiorna(utenteInstance);
+
+			request.setAttribute("utenti_list_attribute", utenteService.listAll());
+			request.setAttribute("successMessage", "operazione riuscita.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("utenti_list_attribute", utenteService.listAll());
+			request.setAttribute("errorMessage", "errore, impossibile disattivare l'ultimo admin rimasto.");
+			request.getRequestDispatcher("list.jsp").forward(request, response);
+			return;
 		}
-
-		utenteService.aggiorna(utenteInstance);
-		request.setAttribute("utenti_list_attribute", utenteService.listAll());
 
 		RequestDispatcher rd = null;
 		rd = request.getRequestDispatcher("ExecuteListUtenteServlet");

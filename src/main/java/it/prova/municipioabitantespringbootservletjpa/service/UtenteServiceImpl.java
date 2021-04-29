@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.municipioabitantespringbootservletjpa.dao.UtenteDAO;
 import it.prova.municipioabitantespringbootservletjpa.model.Ruolo;
+import it.prova.municipioabitantespringbootservletjpa.model.StatoUtente;
 import it.prova.municipioabitantespringbootservletjpa.model.Utente;
 
 @Component
@@ -19,6 +20,9 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private UtenteDAO utenteDAO;
+	
+	@Autowired
+	private RuoloService ruoloService;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -45,7 +49,28 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Transactional
 	public void rimuovi(Utente utenteInstance) {
-		// TODO Auto-generated method stub
+		if(utenteInstance.getRuoli().contains(ruoloService.caricaSingoloElemento(1L))) {
+			if(utenteDAO.countByAdmin()<=1) {
+				throw new RuntimeException("errore, impossibile disattivare l'ultimo admin rimasto");
+			}else {
+				if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
+					utenteInstance.setStato(StatoUtente.ATTIVO);
+				} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
+					utenteInstance.setStato(StatoUtente.DISABILITATO);
+				} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.CREATO.name())) {
+					utenteInstance.setStato(StatoUtente.ATTIVO);
+				}
+			}
+		}else {
+			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
+				utenteInstance.setStato(StatoUtente.ATTIVO);
+			} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
+				utenteInstance.setStato(StatoUtente.DISABILITATO);
+			} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.CREATO.name())) {
+				utenteInstance.setStato(StatoUtente.ATTIVO);
+			}
+		}
+		
 	}
 
 	@Transactional

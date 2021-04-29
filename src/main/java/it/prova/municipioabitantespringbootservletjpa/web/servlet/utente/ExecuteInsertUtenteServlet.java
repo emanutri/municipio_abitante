@@ -27,7 +27,10 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		String passwordParam = request.getParameter("password");
 		String nomeParam = request.getParameter("nome");
 		String cognomeParam = request.getParameter("cognome");
+		String passwordRepeatParam = request.getParameter("passwordRepeat");
 		String[] rouloParam = request.getParameterValues("ruolo.id");
+		
+		
 		
 		// preparo un bean (che mi serve sia per tornare in pagina
 		// che per inserire) e faccio il binding dei parametri
@@ -36,13 +39,15 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		// data di creazione utente valorizzata attraverso il meth create
 
 		// se la validazione non risulta ok
-		if (!UtilityForm.validateUtenteBean(utenteInstance)) {
+		if (!UtilityForm.validateUtenteBean(utenteInstance, passwordRepeatParam)) {
 			request.setAttribute("insert_utente_attr", utenteInstance);
 			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
 			request.getRequestDispatcher("insert.jsp").forward(request, response);
 			return;
 		}
-
+		
+		
+       
 		// se sono qui i valori sono ok quindi posso creare l'oggetto da inserire
 		// occupiamoci delle operazioni di business
 		try {

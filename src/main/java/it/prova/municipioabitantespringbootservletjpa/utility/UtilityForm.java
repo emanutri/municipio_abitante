@@ -137,9 +137,10 @@ public class UtilityForm {
 		return result;
 	}
 
-	public static boolean validateUtenteBean(Utente utenteToBeValidated) {
+	public static boolean validateUtenteBean(Utente utenteToBeValidated, String passwordRepeat) {
 		// prima controlliamo che non siano vuoti i parametri
 		if (StringUtils.isBlank(utenteToBeValidated.getNome()) || StringUtils.isBlank(utenteToBeValidated.getCognome())
+				|| ! passwordRepeat.equals(utenteToBeValidated.getPassword())
 				|| StringUtils.isBlank(utenteToBeValidated.getUsername())
 				|| StringUtils.isBlank(utenteToBeValidated.getPassword())) {
 			return false;

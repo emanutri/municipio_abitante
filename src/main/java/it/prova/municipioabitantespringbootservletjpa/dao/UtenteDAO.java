@@ -16,4 +16,6 @@ public interface UtenteDAO extends IBaseDAO<Utente> {
 
 	public Utente findOneEager(Long id);
 
+	public Long countByAdmin();
+
 }

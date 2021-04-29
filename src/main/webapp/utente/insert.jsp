@@ -43,7 +43,23 @@
 								<input type="password" name="password" id="password" class="form-control" placeholder="Inserire password" value="${insert_utente_attr.password }" required>
 							</div>
 						</div>
-						
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>Ripeti Password <span class="text-danger">*</span></label>
+								<input type="password" name="passwordRepeat" id="passwordRepeat" class="form-control" placeholder="Reinserire password" value="" required>
+							</div>
+								
+							Ruoli:
+							<div class="form-check">
+								<c:forEach items="${ruoli_list_attribute }" var="ruoloItem">
+								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${ruoloItem.id}" id="defaultCheck${ruoloItem.id}" ${insert_utente_attr.ruoli.contains(ruoloItem)?'checked':'' }>
+								  <label class="form-check-label" for="defaultCheck${ruoloItem.id}">
+								    ${ruoloItem.descrizione }
+								  </label>
+								  <br>
+								 </c:forEach>
+							</div>
+						</div>
 						<div class="form-row">	
 							<div class="form-group col-md-6">
 								<label>Nome <span class="text-danger">*</span></label>
@@ -56,18 +72,7 @@
 							</div>
 						</div>
 						
-						<div class="form-row">	
-						Ruoli:
-							<div class="form-check">
-								<c:forEach items="${ruoli_list_attribute }" var="ruoloItem">
-								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${ruoloItem.id}" id="defaultCheck${ruoloItem.id}">
-								  <label class="form-check-label" for="defaultCheck${ruoloItem.id}">
-								    ${ruoloItem.descrizione }
-								  </label>
-								  <br>
-								 </c:forEach>
-							</div>
-						</div>
+						
 						
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 
