@@ -27,9 +27,11 @@ import it.prova.municipioabitantespringbootservletjpa.web.servlet.municipio.Prep
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteDeleteUtenteServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteInsertUtenteServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteListUtenteServlet;
+import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteModificaUtenteServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteSearchUtenteServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.ExecuteVisualizzaUtenteServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.PrepareInsertUtenteServlet;
+import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.PrepareModificaUtenteServlet;
 import it.prova.municipioabitantespringbootservletjpa.web.servlet.utente.PrepareSearchUtenteServlet;
 
 @Configuration
@@ -61,6 +63,8 @@ public class SerlvetRegistrationConfig {
 	private PrepareSearchUtenteServlet prepareSearchUtenteServlet;
 	@Autowired
 	private PrepareInsertUtenteServlet prepareInsertUtenteServlet;
+	@Autowired
+	private PrepareModificaUtenteServlet prepareModificaUtenteServlet;
 
 	@Autowired
 	private ExecuteInsertAbitanteServlet executeInsertAbitanteServlet;
@@ -90,6 +94,8 @@ public class SerlvetRegistrationConfig {
 	private ExecuteVisualizzaUtenteServlet executeVisualizzaUtenteServlet;
 	@Autowired
 	private ExecuteDeleteUtenteServlet executeDeleteUtenteServlet;
+	@Autowired
+	private ExecuteModificaUtenteServlet executeModificaUtenteServlet;
 
 	@Bean
 	public ServletRegistrationBean<LoginServlet> createLoginServletBean() {
@@ -172,6 +178,13 @@ public class SerlvetRegistrationConfig {
 	public ServletRegistrationBean<PrepareSearchUtenteServlet> createPrepareSearchUtenteServletBean() {
 		ServletRegistrationBean<PrepareSearchUtenteServlet> bean = new ServletRegistrationBean<PrepareSearchUtenteServlet>(
 				prepareSearchUtenteServlet, "/utente/PrepareSearchUtenteServlet");
+		return bean;
+	}
+
+	@Bean
+	public ServletRegistrationBean<PrepareModificaUtenteServlet> createPrepareModificaUtenteServletBean() {
+		ServletRegistrationBean<PrepareModificaUtenteServlet> bean = new ServletRegistrationBean<PrepareModificaUtenteServlet>(
+				prepareModificaUtenteServlet, "/utente/PrepareModificaUtenteServlet");
 		return bean;
 	}
 
@@ -273,4 +286,10 @@ public class SerlvetRegistrationConfig {
 		return bean;
 	}
 
+	@Bean
+	public ServletRegistrationBean<ExecuteModificaUtenteServlet> createExecuteModificaUtenteServletBean() {
+		ServletRegistrationBean<ExecuteModificaUtenteServlet> bean = new ServletRegistrationBean<ExecuteModificaUtenteServlet>(
+				executeModificaUtenteServlet, "/utente/ExecuteModificaUtenteServlet");
+		return bean;
+	}
 }

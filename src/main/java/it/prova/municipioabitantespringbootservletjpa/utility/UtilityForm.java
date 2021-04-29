@@ -106,6 +106,31 @@ public class UtilityForm {
 
 		return result;
 	}
+	
+	public static Utente prepareUtenteFromParams(String usernameInput, String passwordInput, String nomeInputParam,
+			String cognomeInputParam, String[] idRuoloArrayInput) {
+
+		Utente result = new Utente(usernameInput, passwordInput, nomeInputParam, cognomeInputParam);
+
+		Set<Ruolo> insiemeDiRuoli = null;
+		if (idRuoloArrayInput != null) {
+
+			insiemeDiRuoli = new HashSet<>();
+
+			for (String idRuoloItem : idRuoloArrayInput) {
+
+				Ruolo ruoloBean = new Ruolo();
+				ruoloBean.setId(Long.parseLong(idRuoloItem));
+				insiemeDiRuoli.add(ruoloBean);
+
+			}
+
+		}
+
+		result.setRuoli(insiemeDiRuoli);
+
+		return result;
+	}
 
 	public static Utente prepareSearchUtenteFromParams(String usernameInput, String nomeInput, String cognomeInput,
 			String statoInput, String[] idRuoloArrayInput, Date dateInput) {

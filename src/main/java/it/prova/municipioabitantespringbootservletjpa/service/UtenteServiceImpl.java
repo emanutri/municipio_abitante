@@ -50,29 +50,31 @@ public class UtenteServiceImpl implements UtenteService {
 	@Transactional
 	public void rimuovi(Utente utenteInstance) {
 		long idAdmin = 1L;
-		
-		//se l'utente da modificare è admin e lo devo disattivare eseguo il controllo
+
+		// se l'utente da modificare è admin e lo devo disattivare eseguo il controllo
 		if (utenteInstance.getRuoli().contains(ruoloService.caricaSingoloElemento(idAdmin))) {
 
-			//se devo disattivare l'admin, controllo che non sia l'ultimo
+			// se devo disattivare l'admin, controllo che non sia l'ultimo
 			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
 				if (utenteDAO.countByAdmin() <= 1) {
 					throw new RuntimeException("errore, impossibile disattivare l'ultimo admin rimasto");
 
 				} else {
-					//il controllo l'ha passato, quindi lo posso disabilitare
+					// il controllo l'ha passato, quindi lo posso disabilitare
 					utenteInstance.setStato(StatoUtente.DISABILITATO);
 					return;
 				}
 			}
-			//qui siamo ancora nel caso utente da modificare admin, e posso attivarlo sempre
+			// qui siamo ancora nel caso utente da modificare admin, e posso attivarlo
+			// sempre
 			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
 				utenteInstance.setStato(StatoUtente.ATTIVO);
 			} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.CREATO.name())) {
 				utenteInstance.setStato(StatoUtente.ATTIVO);
 			}
+
 		} else {
-			//qui arriviamo se l'utente da modificare non è admin
+			// qui arriviamo se l'utente da modificare non è admin
 			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
 				utenteInstance.setStato(StatoUtente.ATTIVO);
 			} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
@@ -119,5 +121,31 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public Utente caricaUtenteEager(Long id) {
 		return utenteDAO.findOneEager(id);
+	}
+
+	@Transactional
+	public void cambiaStato(long id) {
+
+		Utente utenteInstance = utenteDAO.findOneEager(id);
+
+		if (utenteInstance.getRuoli().contains(ruoloService.caricaSingoloElemento(1L))) {
+			if (utenteInstance.getStato().name().equals(StatoUtente.ATTIVO.name())) {
+				if (utenteDAO.countByAdmin() <= 1) {
+					throw new RuntimeException("errore, impossibile disattivare l'ultimo admin rimasto");
+				}
+				utenteInstance.setStato(StatoUtente.DISABILITATO);
+			} else {
+				utenteInstance.setStato(StatoUtente.ATTIVO);
+			}
+
+		} else {
+			if (utenteInstance.getStato().name().equals(StatoUtente.ATTIVO.name())) {
+				utenteInstance.setStato(StatoUtente.DISABILITATO);
+			} else {
+				utenteInstance.setStato(StatoUtente.ATTIVO);
+			}
+		}
+		utenteDAO.update(utenteInstance);
+
 	}
 }
