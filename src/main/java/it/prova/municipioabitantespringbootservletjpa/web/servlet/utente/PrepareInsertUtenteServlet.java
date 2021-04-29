@@ -2,19 +2,30 @@ package it.prova.municipioabitantespringbootservletjpa.web.servlet.utente;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.prova.municipioabitantespringbootservletjpa.model.Utente;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@WebServlet("/utente/PrepareInsertUtenteServlet")
+import it.prova.municipioabitantespringbootservletjpa.model.Utente;
+import it.prova.municipioabitantespringbootservletjpa.service.RuoloService;
+
+@Component
 public class PrepareInsertUtenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	@Autowired
+	private RuoloService ruoloService;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setAttribute("ruoli_list_attribute", ruoloService.listAll());
+
 		request.setAttribute("insert_utente_attr", new Utente());
+
 		request.getRequestDispatcher("/utente/insert.jsp").forward(request, response);
 	}
 

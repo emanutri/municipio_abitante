@@ -19,7 +19,7 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private UtenteDAO utenteDAO;
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -80,4 +80,8 @@ public class UtenteServiceImpl implements UtenteService {
 		return utenteDAO.findByExample(example);
 	}
 
+	@Override
+	public Utente caricaUtenteEager(Long id) {
+		return utenteDAO.findOneEager(id);
+	}
 }

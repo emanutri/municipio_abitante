@@ -5,24 +5,26 @@ import java.util.List;
 import it.prova.municipioabitantespringbootservletjpa.model.Ruolo;
 import it.prova.municipioabitantespringbootservletjpa.model.Utente;
 
-public interface UtenteService  {
-	
-	public List<Utente> listAll() ;
+public interface UtenteService {
 
-	public Utente caricaSingoloElemento(Long id) ;
+	public List<Utente> listAll();
 
-	public void aggiorna(Utente utenteInstance) ;
+	public Utente caricaSingoloElemento(Long id);
 
-	public void inserisciNuovo(Utente utenteInstance) ;
+	public void aggiorna(Utente utenteInstance);
 
-	public void rimuovi(Utente utenteInstance) ;
-	
-	public void aggiungiRuolo(Utente utenteEsistente, Ruolo ruoloInstance) ;
-	
-	public Utente findByUsernameAndPassword(String username, String password) ;
-	
-	public Utente accedi(String username, String password) ;
+	public void inserisciNuovo(Utente utenteInstance);
+
+	public void rimuovi(Utente utenteInstance);
+
+	public void aggiungiRuolo(Utente utenteEsistente, Ruolo ruoloInstance);
+
+	public Utente findByUsernameAndPassword(String username, String password);
+
+	public Utente accedi(String username, String password);
 
 	public List<Utente> findByExample(Utente example);
+
+	public Utente caricaUtenteEager(Long id);
 
 }

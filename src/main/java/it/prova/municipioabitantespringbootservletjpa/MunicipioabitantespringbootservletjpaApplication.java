@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 import it.prova.municipioabitantespringbootservletjpa.model.Ruolo;
 import it.prova.municipioabitantespringbootservletjpa.model.StatoUtente;
@@ -15,7 +14,6 @@ import it.prova.municipioabitantespringbootservletjpa.service.RuoloService;
 import it.prova.municipioabitantespringbootservletjpa.service.UtenteService;
 
 @SpringBootApplication
-//@ComponentScan({"it.prova.municipioabitantespringbootservletjpa"})
 public class MunicipioabitantespringbootservletjpaApplication implements CommandLineRunner {
 
 	@Autowired
@@ -27,7 +25,6 @@ public class MunicipioabitantespringbootservletjpaApplication implements Command
 		SpringApplication.run(MunicipioabitantespringbootservletjpaApplication.class, args);
 
 	}
-
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -47,7 +44,7 @@ public class MunicipioabitantespringbootservletjpaApplication implements Command
 			utenteServiceInstance.aggiungiRuolo(admin,
 					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
 		}
-		
+
 		if (utenteServiceInstance.findByUsernameAndPassword("user", "user") == null) {
 			Utente admin = new Utente("user", "user", "Antonio", "Verdi", new Date());
 			admin.setStato(StatoUtente.ATTIVO);

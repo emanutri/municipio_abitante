@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -94,7 +95,8 @@ public class UtenteDAOImpl implements UtenteDAO {
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
 
-		StringBuilder queryBuilder = new StringBuilder("select u from Utente u where u.id = u.id ");
+		StringBuilder queryBuilder = new StringBuilder(
+				"select u from Utente u left join fetch u.ruoli r where u.id = u.id");
 
 		if (StringUtils.isNotEmpty(example.getUsername())) {
 			whereClauses.add(" u.username  like :username ");
@@ -113,8 +115,17 @@ public class UtenteDAOImpl implements UtenteDAO {
 			paramaterMap.put("dateCreated", example.getDateCreated());
 		}
 		if (example.getStato() != null) {
-			whereClauses.add(" u.stato like :stato ");
-			paramaterMap.put("stato", "%" + example.getStato() + "%");
+			whereClauses.add("u.stato = :stato ");
+			paramaterMap.put("stato", example.getStato());
+		}
+
+		// se cerco per ruolo devo cercare in un set di ruoli
+
+		if (example.getRuoli() != null && !example.getRuoli().isEmpty()) {
+			whereClauses.add(" r.id in :idList ");
+			paramaterMap.put("idList",
+					example.getRuoli().stream().map(ruolo -> ruolo.getId()).collect(Collectors.toList()));
+
 		}
 
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
@@ -126,6 +137,14 @@ public class UtenteDAOImpl implements UtenteDAO {
 		}
 
 		return typedQuery.getResultList();
+	}
+
+	@Override
+	public Utente findOneEager(Long id) {
+		TypedQuery<Utente> query = entityManager.createQuery("from Utente u left join fetch u.ruoli a where u.id = ?1",
+				Utente.class);
+		query.setParameter(1, id);
+		return query.getSingleResult();
 	}
 
 }

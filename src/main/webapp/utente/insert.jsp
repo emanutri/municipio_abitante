@@ -1,4 +1,5 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="it">
 <head>
@@ -6,7 +7,7 @@
 	<title>Inserisci nuovo</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -29,7 +30,7 @@
 		    
 		    		<h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
 
-					<form method="post" action="/utente/ExecuteInsertUtenteServlet" novalidate="novalidate" >
+					<form method="post" action="ExecuteInsertUtenteServlet" novalidate="novalidate" >
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">
@@ -39,7 +40,7 @@
 							
 							<div class="form-group col-md-6">
 								<label>Password <span class="text-danger">*</span></label>
-								<input type="text" name="password" id="password" class="form-control" placeholder="Inserire password" value="${insert_utente_attr.password }" required>
+								<input type="password" name="password" id="password" class="form-control" placeholder="Inserire password" value="${insert_utente_attr.password }" required>
 							</div>
 						</div>
 						
@@ -48,26 +49,33 @@
 								<label>Nome <span class="text-danger">*</span></label>
 								<input type="text" class="form-control" name="nome" id="nome" placeholder="Inserire nome" value="${insert_utente_attr.nome }" required>
 							</div>
-						</div>
-						
-						<div class="form-row">	
+							
 							<div class="form-group col-md-6">
 								<label>Cognome <span class="text-danger">*</span></label>
 								<input type="text" class="form-control" name="cognome" id="cognome" placeholder="Inserire cognome" value="${insert_utente_attr.cognome }" required>
 							</div>
 						</div>
 						
-							
+						<div class="form-row">	
+						Ruoli:
+							<div class="form-check">
+								<c:forEach items="${ruoli_list_attribute }" var="ruoloItem">
+								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${ruoloItem.id}" id="defaultCheck${ruoloItem.id}">
+								  <label class="form-check-label" for="defaultCheck${ruoloItem.id}">
+								    ${ruoloItem.descrizione }
+								  </label>
+								  <br>
+								 </c:forEach>
+							</div>
+						</div>
+						
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 
 					</form>
-
-		    
 		    
 			<!-- end card-body -->			   
 		    </div>
 		</div>	
-	
 	
 	<!-- end container -->	
 	</main>

@@ -27,18 +27,19 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		String passwordParam = request.getParameter("password");
 		String nomeParam = request.getParameter("nome");
 		String cognomeParam = request.getParameter("cognome");
-
+		String[] rouloParam = request.getParameterValues("ruolo.id");
+		
 		// preparo un bean (che mi serve sia per tornare in pagina
 		// che per inserire) e faccio il binding dei parametri
 		Utente utenteInstance = UtilityForm.createUtenteFromParams(usernameParam, passwordParam, nomeParam,
-				cognomeParam);
+				cognomeParam, rouloParam);
 		// data di creazione utente valorizzata attraverso il meth create
 
 		// se la validazione non risulta ok
 		if (!UtilityForm.validateUtenteBean(utenteInstance)) {
 			request.setAttribute("insert_utente_attr", utenteInstance);
 			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-			request.getRequestDispatcher("/utente/insert.jsp").forward(request, response);
+			request.getRequestDispatcher("insert.jsp").forward(request, response);
 			return;
 		}
 
@@ -49,11 +50,10 @@ public class ExecuteInsertUtenteServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "Attenzione si è verificato un errore.");
-			request.getRequestDispatcher("/utente/insert.jsp").forward(request, response);
+			request.getRequestDispatcher("insert.jsp").forward(request, response);
 			return;
 		}
-
-		response.sendRedirect("/utente/ExecuteListUtenteServlet?operationResult=SUCCESS");
+		response.sendRedirect(request.getContextPath()+"/utente/ExecuteListUtenteServlet?operationResult=SUCCESS");
 	}
 
 }

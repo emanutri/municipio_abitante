@@ -58,29 +58,22 @@
 								<label for="stato">Stato</label>
 							    <select class="form-control" id="stato" name="stato">
 							    	<option value=""> -- Selezionare una voce -- </option>
-							      		<option value="${statoUtente.ATTIVO}">ATTIVO</option>
-							      		<option value="${statoUtente.DISABILITATO}">DISABILITATO </option>
-							      		<option value="${statoUtente.CREATO}">CREATO </option>
+							      		<option value="ATTIVO">ATTIVO</option>
+							      		<option value="DISABILITATO">DISABILITATO </option>
+							      		<option value="CREATO">CREATO </option>
 							    </select>
 							</div>
 							
-								<h4>Ruoli:   </h4>
-								<div class="form-check" style="padding-top: 50px">
-								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${idRuoloItem}" id="defaultCheck1">
-								  <label class="form-check-label" for="defaultCheck1">
-								    Admin
+								Ruoli:
+							<div class="form-check">
+								<c:forEach items="${ruoli_list_attribute }" var="ruoloItem">
+								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="${ruoloItem.id}" id="defaultCheck${ruoloItem.id}">
+								  <label class="form-check-label" for="defaultCheck${ruoloItem.id}">
+								    ${ruoloItem.descrizione }
 								  </label>
-								  <br/>
-								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-								  <label class="form-check-label" for="defaultCheck2">
-								    User
-								  </label>
-								  <br/>
-								  <input name="ruolo.id" class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-								  <label class="form-check-label" for="defaultCheck3">
-								    Altro Ruolo
-								  </label>
-								</div>
+								  <br>
+								 </c:forEach>
+							</div>
 						</div>
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 						<input class="btn btn-outline-warning" type="reset" value="Ripulisci">
