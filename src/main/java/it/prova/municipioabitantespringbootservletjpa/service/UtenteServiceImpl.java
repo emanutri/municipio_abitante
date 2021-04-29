@@ -20,7 +20,7 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private UtenteDAO utenteDAO;
-	
+
 	@Autowired
 	private RuoloService ruoloService;
 
@@ -49,19 +49,30 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Transactional
 	public void rimuovi(Utente utenteInstance) {
-		if(utenteInstance.getRuoli().contains(ruoloService.caricaSingoloElemento(1L))) {
-			if(utenteDAO.countByAdmin()<=1) {
-				throw new RuntimeException("errore, impossibile disattivare l'ultimo admin rimasto");
-			}else {
-				if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
-					utenteInstance.setStato(StatoUtente.ATTIVO);
-				} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
+		long idAdmin = 1L;
+		
+		//se l'utente da modificare è admin e lo devo disattivare eseguo il controllo
+		if (utenteInstance.getRuoli().contains(ruoloService.caricaSingoloElemento(idAdmin))) {
+
+			//se devo disattivare l'admin, controllo che non sia l'ultimo
+			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
+				if (utenteDAO.countByAdmin() <= 1) {
+					throw new RuntimeException("errore, impossibile disattivare l'ultimo admin rimasto");
+
+				} else {
+					//il controllo l'ha passato, quindi lo posso disabilitare
 					utenteInstance.setStato(StatoUtente.DISABILITATO);
-				} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.CREATO.name())) {
-					utenteInstance.setStato(StatoUtente.ATTIVO);
+					return;
 				}
 			}
-		}else {
+			//qui siamo ancora nel caso utente da modificare admin, e posso attivarlo sempre
+			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
+				utenteInstance.setStato(StatoUtente.ATTIVO);
+			} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.CREATO.name())) {
+				utenteInstance.setStato(StatoUtente.ATTIVO);
+			}
+		} else {
+			//qui arriviamo se l'utente da modificare non è admin
 			if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.DISABILITATO.name())) {
 				utenteInstance.setStato(StatoUtente.ATTIVO);
 			} else if (utenteInstance.getStato().name().equalsIgnoreCase(StatoUtente.ATTIVO.name())) {
@@ -70,7 +81,7 @@ public class UtenteServiceImpl implements UtenteService {
 				utenteInstance.setStato(StatoUtente.ATTIVO);
 			}
 		}
-		
+
 	}
 
 	@Transactional
